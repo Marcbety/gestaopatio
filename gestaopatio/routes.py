@@ -12,7 +12,7 @@ from flask_login import LoginManager, UserMixin, login_user, logout_user, curren
 from flask_wtf.file import FileField, FileAllowed
 import pytz
 import tkinter as tk
-from tkinter import filedialog
+from tk import filedialog
 import sqlite3
 import logging
 from logging.handlers import RotatingFileHandler
