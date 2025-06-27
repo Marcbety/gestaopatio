@@ -1,4 +1,4 @@
-from gestaopatio import app  
+from gestaopatio import app, database  
  # Crie o banco de dados dentro do contexto da aplicação
 with app.app_context():
        #database.drop_all()
