@@ -11,8 +11,6 @@ from flask_bcrypt import Bcrypt
 from flask_login import LoginManager, UserMixin, login_user, logout_user, current_user, login_required
 from flask_wtf.file import FileField, FileAllowed
 import pytz
-import tkinter
-from tkinter import filedialog
 import sqlite3
 import logging
 from logging.handlers import RotatingFileHandler
