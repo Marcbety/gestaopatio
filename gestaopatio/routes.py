@@ -2,7 +2,7 @@ import pandas as pd
 from flask import Flask
 from flask import render_template, redirect, url_for, flash, request, jsonify
 from gestaopatio import app
-from forms import FormCriarConta, FormLogin, FormAgendamentos, FormReagenda, FormFrota, FormCliente, FormEmbarcador, FormFrotaTerceiro, FormMotorista, FormControlPatio, FormControlFaixa 
+from gestaopatio.forms import FormCriarConta, FormLogin, FormAgendamentos, FormReagenda, FormFrota, FormCliente, FormEmbarcador, FormFrotaTerceiro, FormMotorista, FormControlPatio, FormControlFaixa 
 from datetime import date, datetime, time, timezone, timedelta
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, BooleanField, DateField, DateTimeField, SelectField, IntegerField
