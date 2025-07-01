@@ -1,6 +1,6 @@
 from gestaopatio import database
 from datetime import date, datetime, time, timezone, timedelta
-
+from flask_login import LoginManager, UserMixin, login_user, logout_user, current_user, login_required
   
 class Usuario(database.Model, UserMixin):
         id = database.Column(database.Integer, primary_key=True)
