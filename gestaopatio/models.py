@@ -1,6 +1,6 @@
 from gestaopatio import database
 from datetime import date, datetime, time, timezone, timedelta
-
+from flask_login import LoginManager
 
 @login_manager.user_loader
 def load_usuario(id_usuario):
