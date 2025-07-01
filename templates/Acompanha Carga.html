@@ -1,0 +1,108 @@
+{% extends 'Base.html' %}
+
+
+{% block body%}
+<div class="container-fluid mt-3">
+        	<h1>Acompanhamento Cargas</h1>
+            <div>
+                <div id="origem-filters" class="mb-1 text-center"></div> <!-- Contêiner para os checkboxes -->
+                <button id="apply-filters" class="btn btn-dark mb-1">Aplicar Filtros</button> <!-- Botão para aplicar filtros -->    
+            </div>   
+                     
+           
+
+            <div class="container-fluid p-2">        
+        	<table class="table table-striped" style="font-size: 11px;"id="cargas-table">
+
+                  <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Transporte</th>
+                            <th scope="col">Data</th>
+                            <th scope="col">Agenda</th>
+                            <th scope="col">Origem</th>
+                            <th scope="col">Destino</th>
+                            <th scope="col">Veículo</th>
+                            <th scope="col">Cliente</th>
+                            <th scope="col">Placa</th>
+                            <th scope="col">Motorista</th>
+                            <th scope="col">Transportadora</th>
+                            <th scope="col">Check-In</th>
+                            <th scope="col">Entrada</th>
+                            <th scope="col">Carregando</th>
+                            <th scope="col">Concluído</th>
+                            <th scope="col">Saída</th>
+                        </tr>
+
+                  </thead>
+                  <tbody>
+                      
+                    {% for agendamentos in lista_cargas %}
+                    <tr>
+                        <th scope="row">{{ loop.index }}</th>
+                        <td>{{ agendamentos.num_transporte }}</td>
+                        <td>{{ agendamentos.entrydate.strftime('%d/%m/%Y') }}</td>
+                        <td>{{ agendamentos.entryhour }}</td>
+                        <td class="origem">{{ agendamentos.origem }}</td>
+                        <td>{{ agendamentos.destino }}</td>
+                        <td>{{ agendamentos.veiculo }}</td>
+                        <td>{{ agendamentos.cliente }}</td>
+                        <td>{{ agendamentos.placa_veiculo }}</td>
+                        <td>{{ agendamentos.motorista }}</td>
+                        <td>{{ agendamentos.transportadora }}</td>
+                        <td>{{ agendamentos.check_in.strftime('%H:%M') if agendamentos.check_in else '' }}</td>
+                        <td>{{ agendamentos.entrada_patio.strftime('%H:%M') if agendamentos.entrada_patio else ''  }}</td>
+                        <td>{{ agendamentos.carregamento.strftime('%H:%M') if agendamentos.carregamento else ''   }}</td>
+                        <td>{{ agendamentos.fim_carregamento.strftime('%H:%M') if agendamentos.fim_carregamento else ''   }}</td>
+                        <td>{{ agendamentos.saida_portaria.strftime('%H:%M') if agendamentos.saida_portaria else ''   }}</td>
+                        
+                    </tr>
+                    {% endfor %}
+                       
+                  </tbody>
+            </table>
+                
+            </div>    
+<div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const origemFiltersContainer = document.getElementById('origem-filters');
+    const applyFiltersButton = document.getElementById('apply-filters');
+    const tableRows = document.querySelectorAll('#cargas-table tbody tr');
+
+    // Obter todas as origens únicas
+    const origens = new Set();
+    tableRows.forEach(row => {
+        const origem = row.querySelector('.origem').textContent.trim();
+        origens.add(origem);
+    });
+
+    // Criar checkboxes para cada origem
+    origens.forEach(origem => {
+        const label = document.createElement('label');
+        label.classList.add('mr-2');
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.value = origem;
+        checkbox.classList.add('mr-1');
+        label.appendChild(checkbox);
+        label.appendChild(document.createTextNode(origem));
+        origemFiltersContainer.appendChild(label);
+    });
+
+    // Aplicar filtros
+    applyFiltersButton.addEventListener('click', () => {
+        const selectedOrigens = Array.from(origemFiltersContainer.querySelectorAll('input[type="checkbox"]:checked')).map(cb => cb.value);
+        tableRows.forEach(row => {
+            const origem = row.querySelector('.origem').textContent.trim();
+            if (selectedOrigens.length === 0 || selectedOrigens.includes(origem)) {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
+        });
+    });
+});
+</script>
+{% endblock %}

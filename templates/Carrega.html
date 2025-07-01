@@ -1,0 +1,62 @@
+{% extends 'Base.html' %}
+
+{% block body%}
+		<div class="container-fluid mt-2">
+            
+            	<h1>Agendamentos</h1>
+                
+                <div>
+                   <a class="w-15" href="{{ url_for('painel') }}">
+                      <button class="btn btn-danger mt-2">Voltar</button>
+                   </a>
+                </div>         
+            <div class="container-fluid p-1">       
+        	<table class="table table-striped" style="font-size: 11px;">
+                  <thead class="thead-dark">
+                    <tr>
+                      <th scope="col" style="margin: 3px;">#</th>
+                      <th scope="col" style="margin: 3px;">Transporte</th>  
+                      <th scope="col" style="margin: 3px;">Data</th>
+                      <th scope="col" style="margin: 3px;">Agenda</th>
+                      <th scope="col" style="margin: 3px;">Origem</th>
+                      <th scope="col" style="margin: 3px;">Destino</th>
+                      <th scope="col" style="margin: 3px;">Veículo</th>
+                      <th scope="col" style="margin: 3px;">Cliente</th>
+                      <th scope="col" style="margin: 3px;">Placa</th>
+                      <th scope="col" style="margin: 3px;">Motorista</th>
+                      <th scope="col" style="margin: 3px;">Transportadora</th>
+                      <th scope="col" style="margin: 3px;">Status</th>
+                      <th scope="col" style="margin: 3px;">Ação</th>
+                      
+                      
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for agendamentos in lista_cargas %}
+                    <tr>
+                        <th scope="row" style="margin: 2px;">{{ loop.index }}</th>
+                        <td style="margin: 2px;">{{ agendamentos.num_transporte }}</td>
+                        <td style="margin: 2px;">{{ agendamentos.entrydate.strftime('%d/%m/%Y') }}</td>
+                        <td style="margin: 2px;">{{ agendamentos.entryhour }}</td>
+                        <td style="margin: 2px;">{{ agendamentos.origem }}</td>
+                        <td style="margin: 2px;">{{ agendamentos.destino }}</td>
+                        <td style="margin: 2px;">{{ agendamentos.veiculo }}</td>
+                        <td style="margin: 2px;">{{ agendamentos.cliente }}</td>
+                        <td style="margin: 2px;">{{ agendamentos.placa_veiculo }}</td>
+                        <td style="margin: 2px;">{{ agendamentos.motorista }}</td>
+                        <td style="margin: 2px;">{{ agendamentos.transportadora }}</td>
+                        <td style="margin: 2px;">{{ agendamentos.fase_carga if agendamentos.fase_carga else '' }}</td>
+                        <td>
+                            <a href="{{ url_for('reagenda', agendamento_id=agendamentos.id, botao_clicado='Reagendar') }}" class="btn btn-danger btn-sm p-1">Reagendar</a>
+                                <a href="{{ url_for('reagenda', agendamento_id=agendamentos.id, botao_clicado='Cancelar') }}" class="btn btn-dark btn-sm p-1">Cancelar</a>
+                                <a href="{{ url_for('reagenda', agendamento_id=agendamentos.id, botao_clicado='Alterar') }}" class="btn btn-warning btn-sm p-1">Alterar</a>
+                        </td>
+                        
+                       
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+            </table>
+            </div>    
+        <div>
+{% endblock %}

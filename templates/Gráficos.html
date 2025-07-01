@@ -1,0 +1,36 @@
+{% extends 'Base.html' %}
+
+{% block body %}
+
+<div class="container">
+<h2>Bar Chart</h2>
+<canvas id="myChart"></canvas>
+</div>
+<script>
+      let ctx = document.getElementById("myChart").getContext('2d');
+      let myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: ["rice", "yam", "tomato", "potato",
+          "beans", "maize", "oil"],
+          datasets: [{
+            label: 'food Items',
+            backgroundColor: 'rgba(161, 198, 247, 1)',
+            borderColor: 'rgb(47, 128, 237)',
+            data: [300, 400, 200, 500, 800, 900, 200],
+          }]
+        },
+        options: {
+          scales: {
+            yAxes: [{
+              ticks: {
+                beginAtZero: true,
+              }
+            }]
+          }
+        },
+      });
+</script>
+
+
+{% endblock %}

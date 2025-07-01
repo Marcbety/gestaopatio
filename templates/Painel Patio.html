@@ -1,0 +1,88 @@
+{% extends 'Base.html' %}
+
+{% block body%}
+	<div class="container-fluid mt-3">
+      
+        		<h1>Painel de Controla Patio</h1>
+                <div>
+                    
+                     <div id="origem-filters" class="mb-1 text-center"></div> <!-- Contêiner para os checkboxes -->
+                     <button id="apply-filters" class="btn btn-dark mb-1">Aplicar Filtros</button> <!-- Botão para aplicar filtros -->
+                    
+                    
+                    <a class = "w-15" href="{{ url_for('carrega')}}">  
+                    <button class="btn btn-danger mb-1">Reagendar/Cancelar/Alterar</button>
+                    </a>
+
+                    <a class = "w-15" href="{{ url_for('relatorio_me')}}">  
+                    <button class="btn btn-danger mb-1">Relatório</button>
+                    </a>     
+                </div> 
+        
+            <div class="container-fluid p-2">        
+        	<table class="table table-striped" style="font-size: 11px;">
+                  <thead class="thead-dark">
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">Data</th>
+                      <th scope="col">Frota</th>
+                      <th scope="col">Doca</th>
+                      <th scope="col">Num. Faixa</th>
+                      <th scope="col">Portaria</th>
+                      <th scope="col">Patio</th>
+                      <th scope="col">Faixa</th>
+                      <th scope="col">Concuído</th>  
+                        
+                        
+                    </tr>
+                  </thead>
+                  <tbody>
+                      
+                    {% for controle in lista_patio %}
+                    <tr>
+                        <th scope="row">{{ loop.index }}</th>
+                        <td>{{ controle.data.strftime('%d/%m/%Y') }}</td>
+                        <td>{{ controle.num_frota }}</td>
+                        <td>{{ controle.num_doca }}</td>
+                        <td>{{ controle.num_faixa }}</td>
+                        <td>{{ controle.portaria.strftime('%H:%M') if controle.portaria else '' }}</td>
+                        <td>{{ controle.patio.strftime('%H:%M') if controle.patio else ''  }}</td>
+                        <td>{{ controle.faixa.strftime('%H:%M') if controle.faixa else ''   }}</td>
+                        <td>{{ controle.concluido.strftime('%H:%M') if controle.concluido else ''   }}</td>
+                        <td>
+                            
+                            {% if not controle.portaria %}
+                            <form action="{{ url_for('portaria', controle_id=controle.id) }}" method="post">
+                        <button type="submit" class="btn btn-success btn-sm" {% if controle.portaria %}disabled{% endif %}>Portaria</button>
+                            </form>
+                            {% endif %}
+                            
+                            {% if not controle.patio and controle.portaria %}
+                            <form action="{{ url_for('entrada_patio', controle_id=controle.id) }}" method="post">
+                        <button type="submit" class="btn btn-danger btn-sm" {% if controle.patio %}disabled{% endif %}>Patio</button>
+                            </form>
+                            {% endif %}
+                            
+                            {% if not controle.faixa and controle.portaria and controle.patio %}
+                            <form action="{{ url_for('inicio_carga', controle_id=controle.id) }}" method="post">
+                        <button type="submit" class="btn btn-secondary btn-sm" {% if controle.faixa %}disabled{% endif %}>Faixa</button>
+                            </form>
+                            {% endif %}
+                            
+                            {% if not controle.concluido and controle.portaria and controle.patio and controle.faixa %}
+                            <form action="{{ url_for('fim_carga', controle_id=controle.id) }}" method="post">
+                        <button type="submit" class="btn btn-danger btn-sm" {% if controle.concluido %}disabled{% endif %}>Concluído</button>
+                            </form>
+                            {% endif %}
+                            
+                        </td>
+                    </tr>
+                    {% endfor %}
+                       
+                  </tbody>
+            </table>
+       
+            </div>    
+    <div>
+     
+{% endblock %}
