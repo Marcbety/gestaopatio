@@ -2,6 +2,7 @@ from gestaopatio import database
 from datetime import date, datetime, time, timezone, timedelta
 from flask_login import LoginManager
 
+login_manager = LoginManager(app)
 @login_manager.user_loader
 def load_usuario(id_usuario):
     return Usuario.query.get(int(id_usuario))
