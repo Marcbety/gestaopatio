@@ -16,6 +16,7 @@ import logging
 from logging.handlers import RotatingFileHandler
 from flask_wtf.csrf import generate_csrf
 from sqlalchemy import func
+from gestaopatio.models import Agendamentos
 
 
 @app.route('/')
