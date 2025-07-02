@@ -18,7 +18,7 @@ from flask_wtf.csrf import generate_csrf
 from sqlalchemy import func
 from gestaopatio.models import Agendamentos, Usuario, Motorista, Frota_Andina, Cliente_Andina, Frota_Terceiros, Arquivos, Vendas_ME, Control_Patio, ControlPicking
 
-bcrypt = Bcrypt(app)
+bcrypt = bcrypt(app)
 
 @app.route('/')
 def home():
