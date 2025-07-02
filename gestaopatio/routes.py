@@ -7,7 +7,7 @@ from datetime import date, datetime, time, timezone, timedelta
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, BooleanField, DateField, DateTimeField, SelectField, IntegerField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
-from flask_bcrypt import Bcrypt
+from flask_bcrypt import Bcrypt as bcrypt
 from flask_login import LoginManager, UserMixin, login_user, logout_user, current_user, login_required
 from flask_wtf.file import FileField, FileAllowed
 import pytz
