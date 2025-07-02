@@ -23,7 +23,7 @@ login_manager.login_message_category = 'alert-info'
 
 @login_manager.user_loader
 def load_usuario(id_usuario):
-    from gestaopatio.models import Usuario  # ✅ Importe aqui dentro
+    from gestaopatio.models import Usuario
     return Usuario.query.get(int(id_usuario))
 
     
