@@ -10,7 +10,9 @@ app = Flask(__name__)
 
 # Configurações principais
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'chave-padrao-secreta')
-app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL', 'sqlite:///data/agendamento.db')
+
+# Exige que DATABASE_URL esteja definida (sem fallback para SQLite)
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['WTF_CSRF_ENABLED'] = True
 
