@@ -190,7 +190,7 @@ def perfil_moto():
 @login_required
 def graficos():
        foto_perfil=url_for('static', filename='fotos_perfil/koandina.jpg')
-       return render_template('gráficos.html', foto_perfil=foto_perfil)
+       return render_template('Gráficos.html', foto_perfil=foto_perfil)
     
     
 @app.route('/carrega')
