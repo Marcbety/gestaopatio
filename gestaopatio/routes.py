@@ -502,7 +502,7 @@ def login():
                    return redirect(url_for('home') )
            else:
                flash(f'Falha no login! Usuario ou Senha Incorretos', 'alert-danger')
-       return render_template('login.html', form_login=form_login)
+       return render_template('Login.html', form_login=form_login)
     
     
 @app.route('/acesso', methods=['GET', 'POST'])
@@ -527,7 +527,7 @@ def cadastro():
         except Exception as e:
             app.logger.error(f'Erro ao cadastrar usuário: {e}')
             flash('Ocorreu um erro ao processar seu cadastro. Tente novamente mais tarde.', 'alert-danger')
-    return render_template('cadastro.html', form_conta=form_conta)
+    return render_template('Cadastro.html', form_conta=form_conta)
     
     
     
