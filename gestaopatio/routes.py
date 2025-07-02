@@ -510,8 +510,12 @@ def cadastro():
     form_conta = FormCriarConta()
     if form_conta.validate_on_submit():
         try:
-            senha = request.form.get('senha')
-            senha_cript = bcrypt.generate_password_hash(form_conta.senha.data).decode('utf-8')
+            if form_conta.senha.data:
+                senha_cript = bcrypt.generate_password_hash(form_conta.senha.data).decode('utf-8')
+            else:
+                flash('Senha não fornecida.', 'alert-danger')
+                return render_template('Cadastro.html', form_conta=form_conta)
+
             cadastramento = Usuario(
                 username=form_conta.username.data,
                 email=form_conta.email.data,
@@ -529,6 +533,7 @@ def cadastro():
             app.logger.error(f'Erro ao cadastrar usuário: {e}')
             flash('Ocorreu um erro ao processar seu cadastro. Tente novamente mais tarde.', 'alert-danger')
     return render_template('Cadastro.html', form_conta=form_conta)
+
     
     
     
