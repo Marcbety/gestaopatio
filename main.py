@@ -4,7 +4,7 @@ from gestaopatio import app, database
 
 # Cria o banco de dados dentro do contexto da aplicação
 with app.app_context():
-    # database.drop_all()  # Use com cuidado!
+   
     database.create_all()
 
 if __name__ == '__main__':
