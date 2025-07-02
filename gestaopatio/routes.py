@@ -17,7 +17,8 @@ from logging.handlers import RotatingFileHandler
 from flask_wtf.csrf import generate_csrf
 from sqlalchemy import func
 from gestaopatio.models import Agendamentos, Usuario, Motorista, Frota_Andina, Cliente_Andina, Frota_Terceiros, Arquivos, Vendas_ME, Control_Patio, ControlPicking
-from gestaopatio import database, bcrypt
+from gestaopatio import app, database, bcrypt
+
 
 @app.route('/')
 def home():
