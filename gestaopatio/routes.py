@@ -510,7 +510,8 @@ def cadastro():
     form_conta = FormCriarConta()
     if form_conta.validate_on_submit():
         try:
-            senha_cript = bcrypt.generate_password_hash(form_conta.senha.data)
+            senha = request.form.get('senha')
+            senha_cript = bcrypt.generate_password_hash(form_conta.senha.data).decode('utf-8')
             cadastramento = Usuario(
                 username=form_conta.username.data,
                 email=form_conta.email.data,
