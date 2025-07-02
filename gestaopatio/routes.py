@@ -123,7 +123,7 @@ def lista_arquivos():
     except Exception as e:
         # Em caso de erro, exibe uma mensagem e redireciona
         flash(f'Ocorreu um erro ao carregar os arquivos: {str(e)}', 'alert-danger')
-        return redirect(url_for('arq_produtos'))
+        return redirect(url_for('Arq_Produtos'))
 
 @app.route('/gestao_picking')
 def gestao_picking():
@@ -163,7 +163,7 @@ def gestao_picking():
         return redirect(url_for('painel_rota'))
     
     current_time = datetime.now()
-    return render_template('painel picking.html', controle_patio=controle_patio, separacao=separacao, now=current_time)
+    return render_template('Painel Picking.html', controle_patio=controle_patio, separacao=separacao, now=current_time)
 
     
 @app.route('/lista_picking')
@@ -238,13 +238,13 @@ def agendamento():
         return redirect(url_for('agendamento'))
 
     elif form_agendamento.validate_on_submit() and 'botao_submit_arq_agendamento' in request.form:
-        return render_template('arq_agendamento.html')
+        return render_template('Arq_Agendamento.html')
 
-    return render_template('agendamento.html', form_agendamento=form_agendamento)
+    return render_template('Agendamento.html', form_agendamento=form_agendamento)
     
 @app.route('/arq_agenda', methods=['GET', 'POST'])
 def arq_agenda():
-       return render_template('arq_agendamento.html')
+       return render_template('Arq_Agendamento.html')
     
     
 @app.route('/arq_agenda/upload', methods=['GET', 'POST'])
@@ -317,14 +317,14 @@ def upload_file():
                 flash(f'Erro ao processar o arquivo: {e}', 'alert-danger')
             return redirect(url_for('upload_file'))
 
-    return render_template('arq_agendamento.html')
+    return render_template('Arq_agendamento.html')
 
 @app.route('/buscar_transporte', methods=['POST'])
 def buscar_transporte():
     num_transporte = request.form['num_transporte']
     agendamentos = get_agendamentos(num_transporte)  # Função que busca agendamentos
     vendas_me = get_vendas(num_transporte)  # Função que busca vendas
-    return render_template('documentacao.html', agendamentos=agendamentos, vendas_me=vendas_me)
+    return render_template('Documentacao.html', agendamentos=agendamentos, vendas_me=vendas_me)
 
 def get_agendamentos(num_transporte):
     return Agendamentos.query.filter_by(num_transporte=num_transporte).all()
@@ -335,7 +335,7 @@ def get_vendas(num_transporte):
 @app.route('/relatorios')
 @login_required
 def relatorio_me():
-    return render_template('documentacao.html', agendamentos=None, vendas=None)
+    return render_template('Documentacao.html', agendamentos=None, vendas=None)
 
 @app.route('/relatorios/upload', methods=['GET', 'POST'])
 def arq_produtos():
@@ -423,7 +423,7 @@ def arq_produtos():
                 flash(f'Erro ao processar o arquivo: {e}', 'alert-danger')
             return redirect(url_for('arq_produtos'))
 
-    return render_template('produtos cargas.html')
+    return render_template('Produtos Cargas.html')
 
 @app.route('/reagenda', methods=['GET', 'POST'])
 @login_required
@@ -570,7 +570,7 @@ def entidade():
            database.session.commit()
            flash(f'Embarcador {form_cliente.nome_embarcador.data} cadastrado com sucesso', 'alert-success')
            return redirect(url_for('entidade') )    
-       return render_template('cadastro_entidades.html', form_cliente=form_cliente, form_embarcador=form_embarcador)
+       return render_template('Cadastro_entidades.html', form_cliente=form_cliente, form_embarcador=form_embarcador)
     
     
     
@@ -664,7 +664,7 @@ def controle_faixa():
            flash(f'Frota cadastrada com sucesso para: {form_gestao_patio.num_frota.data}', 'alert-success')
            return redirect(url_for('painel_rota') )
 
-        return render_template('control patio.html', form_gestao_patio=form_gestao_patio)
+        return render_template('Control Patio.html', form_gestao_patio=form_gestao_patio)
 
 
 @app.route('/controle_patio', methods=['GET', 'POST'])
@@ -696,7 +696,7 @@ def controle_patio():
 
         if doca_ocupada:
             flash(f'A doca {form_gestao_patio.num_doca.data} já está ocupada hoje por outra frota em status "Stage".', 'alert-danger')
-            return render_template('control patio.html', form_gestao_patio=form_gestao_patio)
+            return render_template('Control Patio.html', form_gestao_patio=form_gestao_patio)
 
         # Atualiza os dados normalmente
         utc_now = datetime.utcnow()
@@ -723,7 +723,7 @@ def controle_patio():
         flash(f'Frota alterada com sucesso para: {form_gestao_patio.num_frota.data}', 'alert-success')
         return redirect(url_for('painel_rota'))
 
-    return render_template('control patio.html', form_gestao_patio=form_gestao_patio)
+    return render_template('Control Patio.html', form_gestao_patio=form_gestao_patio)
 
 
 
@@ -777,9 +777,9 @@ def arq_picking():
             flash('Arquivos carregados, mesclados e dados salvos com sucesso', 'alert-success')
         except Exception as e:
             flash(f'Erro ao processar o arquivo: {e}', 'alert-danger')
-        return redirect(url_for('arq_picking'))
+        return redirect(url_for('Arq_picking'))
     
-    return render_template('dados picking.html')
+    return render_template('Dados Picking.html')
 
 def convert_to_time(time_value):
     if pd.isna(time_value):
