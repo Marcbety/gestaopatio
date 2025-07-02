@@ -3,7 +3,7 @@ from flask_bcrypt import Bcrypt
 from flask_login import LoginManager, UserMixin, login_user, logout_user, current_user, login_required
 from flask_sqlalchemy import SQLAlchemy
 import os
-from gestaopatio.models import Agendamentos, Usuario, Motorista, Frota_Andina, Cliente_Andina, Frota_Terceiros, Arquivos, Vendas_ME, Control_Patio, ControlPicking
+    
 
 app = Flask(__name__)
     
@@ -23,6 +23,8 @@ login_manager.login_message_category = 'alert-info'
 
 @login_manager.user_loader
 def load_usuario(id_usuario):
-    return Usuario.query.get(int(id_usuario))
+    from gestaopatio.models import Usuario  # ✅ Importe aqui dentro
+    return Usuario.query.get(int(id_usuario))
+
     
 from gestaopatio import routes
