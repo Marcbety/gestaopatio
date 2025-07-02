@@ -22,9 +22,9 @@ login_manager.login_message_category = 'alert-info'
 
 # Carregamento do usuário
 @login_manager.user_loader
-def load_usuario(id_usuario):
-    from gestaopatio.models import Usuario
-    return Usuario.query.get(int(id_usuario))
+def loade_usuario(id_usuario):
+  from gestaopatio.models import Usuario
+  return Usuario.query.get(int(id_usuario))
 
 # Importa rotas
 from gestaopatio import routes
