@@ -9,9 +9,10 @@ RUN apt-get update && apt-get install -y \
     gfortran \
     libffi-dev \
     pkg-config \
-    && apt-get clean
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
-# Cria diretório de trabalho
+# Define diretório de trabalho
 WORKDIR /app
 
 # Copia os arquivos do projeto
@@ -22,5 +23,14 @@ RUN pip install --upgrade pip setuptools wheel
 RUN pip install numpy==1.26.4 --only-binary=:all:
 RUN pip install -r requirements.txt
 
-# Comando para iniciar o app
-CMD ["gunicorn", "main:app"]
+# Define variável de ambiente padrão para SQLite
+ENV DATABASE_URL=sqlite:///data/agendamento.db
+
+# Cria diretório para persistência de dados
+RUN mkdir -p /app/data
+
+# Expõe a porta da aplicação
+EXPOSE 5000
+
+# Comando para iniciar o app com Gunicorn
+CMD ["gunicorn", "--bind", "0.0.0.0:5000", "main:app"]
