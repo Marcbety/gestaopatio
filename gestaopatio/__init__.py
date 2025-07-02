@@ -21,10 +21,9 @@ login_manager = LoginManager(app)
 login_manager.login_view = 'login'
 login_manager.login_message_category = 'alert-info'
 
-@login_manager.user_loader
+@login_manager.user.loader
 def load_usuario(id_usuario):
-    from gestaopatio.models import Usuario
-    return Usuario.query.get(int(id_usuario))
-
+    from gestaopatio.models import Usuario
+    return Usuario.query.get(int(id_usuario))
     
 from gestaopatio import routes
