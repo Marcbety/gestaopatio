@@ -33,4 +33,5 @@ RUN mkdir -p /app/data
 EXPOSE 5000
 
 # Comando para iniciar o app com Gunicorn
-CMD ["gunicorn", "--bind", "0.0.0.0:5000", "main:app"]
+
+CMD ["gunicorn", "--bind", "0.0.0.0:5000", "--timeout", "600", "main:app"]
