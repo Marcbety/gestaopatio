@@ -121,7 +121,7 @@ def lista_arquivos():
     except Exception as e:
         # Em caso de erro, exibe uma mensagem e redireciona
         flash(f'Ocorreu um erro ao carregar os arquivos: {str(e)}', 'alert-danger')
-        return redirect(url_for('Arq_Produtos'))
+        return redirect(url_for('arq_produtos'))
 
 @app.route('/gestao_picking')
 def gestao_picking():
@@ -775,7 +775,7 @@ def arq_picking():
             flash('Arquivos carregados, mesclados e dados salvos com sucesso', 'alert-success')
         except Exception as e:
             flash(f'Erro ao processar o arquivo: {e}', 'alert-danger')
-        return redirect(url_for('Arq_picking'))
+        return redirect(url_for('arq_picking'))
     
     return render_template('Dados Picking.html')
 
