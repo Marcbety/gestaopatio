@@ -210,10 +210,8 @@ def agendamento():
             if (
                 ultimo_agendamento and 
                 ultimo_agendamento.num_transporte and 
-                str(ultimo_agendamento.num_transporte).startswith('D')
+                ultimo_agendamento.num_transporte.startswith('D')
             ):
-                try:
-                    ultimo_numero = int(str(ultimo_agendamento.num_transporte)[1:])
                 except ValueError:
                     ultimo_numero = 0
                 novo_numero = ultimo_numero + 1
