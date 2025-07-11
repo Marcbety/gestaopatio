@@ -201,19 +201,27 @@ def carrega():
 @login_required
 def agendamento():
     form_agendamento = FormAgendamentos()
+
     if form_agendamento.validate_on_submit() and 'botao_submit_agendamento' in request.form:
         # Verifica se o tipo de operação é "Recebimento"
         if form_agendamento.tipo_operacao.data == "Recebimento":
             # Gera o num_transporte
             ultimo_agendamento = Agendamentos.query.order_by(Agendamentos.id.desc()).first()
-            if ultimo_agendamento and ultimo_agendamento.num_transporte and ultimo_agendamento.num_transporte.startswith('D'):
-                ultimo_numero = int(ultimo_agendamento.num_transporte[1:])
+            if (
+                ultimo_agendamento and 
+                ultimo_agendamento.num_transporte and 
+                str(ultimo_agendamento.num_transporte).startswith('D')
+            ):
+                try:
+                    ultimo_numero = int(str(ultimo_agendamento.num_transporte)[1:])
+                except ValueError:
+                    ultimo_numero = 0
                 novo_numero = ultimo_numero + 1
             else:
                 novo_numero = 1
             num_transporte = f'D{novo_numero:06d}'
         else:
-            num_transporte = None # Ou outra lógica para outros tipos de operação
+            num_transporte = None  # Ou outra lógica para outros tipos de operação
 
         agendamentos = Agendamentos(
             entrydate=form_agendamento.entrydate.data,
@@ -236,9 +244,9 @@ def agendamento():
         return redirect(url_for('agendamento'))
 
     elif form_agendamento.validate_on_submit() and 'botao_submit_arq_agendamento' in request.form:
-        return render_template('Arq_Agendamento.html')
+        return render_template('arq_agendamento.html')
 
-    return render_template('Agendamento.html', form_agendamento=form_agendamento)
+    return render_template('agendamento.html', form_agendamento=form_agendamento)
     
 @app.route('/arq_agenda', methods=['GET', 'POST'])
 def arq_agenda():
