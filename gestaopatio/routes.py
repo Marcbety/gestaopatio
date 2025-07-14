@@ -212,7 +212,6 @@ def agendamento():
                 ultimo_agendamento.num_transporte and 
                 ultimo_agendamento.num_transporte.startswith('D')
             ):
-                except ValueError:
                 ultimo_numero = int(ultimo_agendamento.num_transporte[1:])
                 novo_numero = ultimo_numero + 1
             else:
