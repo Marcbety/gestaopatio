@@ -215,8 +215,8 @@ def agendamento():
                 ultimo_numero = int(ultimo_agendamento.num_transporte[1:])
                 novo_numero = ultimo_numero + 1
             else:
-            novo_numero = 1
-            num_transporte = f'D{novo_numero:06d}'
+                   novo_numero = 1
+                   num_transporte = f'D{novo_numero:06d}'
         else:
             num_transporte = None  # Ou outra lógica para outros tipos de operação
 
