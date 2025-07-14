@@ -213,10 +213,10 @@ def agendamento():
                 ultimo_agendamento.num_transporte.startswith('D')
             ):
                 except ValueError:
-                    ultimo_numero = 0
+                ultimo_numero = int(ultimo_agendamento.num_transporte[1:])
                 novo_numero = ultimo_numero + 1
             else:
-                novo_numero = 1
+            novo_numero = 1
             num_transporte = f'D{novo_numero:06d}'
         else:
             num_transporte = None  # Ou outra lógica para outros tipos de operação
