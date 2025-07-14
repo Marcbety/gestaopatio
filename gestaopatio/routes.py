@@ -241,9 +241,9 @@ def agendamento():
         return redirect(url_for('agendamento'))
 
     elif form_agendamento.validate_on_submit() and 'botao_submit_arq_agendamento' in request.form:
-        return render_template('agendamento.html')
+        return render_template('Agendamento.html')
 
-    return render_template('agendamento.html', form_agendamento=form_agendamento)
+    return render_template('Agendamento.html', form_agendamento=form_agendamento)
     
 @app.route('/arq_agenda', methods=['GET', 'POST'])
 def arq_agenda():
