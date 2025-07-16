@@ -213,7 +213,7 @@ def agendamento():
                 novo_numero = 1
             num_transporte = f'D{novo_numero:06d}'
         else:
-            num_transporte = None # Ou outra lógica para outros tipos de operação
+            num_transporte = str(row['Transporte']) # Ou outra lógica para outros tipos de operação
 
         agendamentos = Agendamentos(
             entrydate=form_agendamento.entrydate.data,
