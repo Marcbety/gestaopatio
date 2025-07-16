@@ -207,7 +207,7 @@ def agendamento():
             # Gera o num_transporte
             ultimo_agendamento = Agendamentos.query.order_by(Agendamentos.id.desc()).first()
             if ultimo_agendamento and ultimo_agendamento.num_transporte and ultimo_agendamento.num_transporte.startswith('D'):
-                ultimo_numero = int(ultimo_agendamento.num_transporte[1:])
+                ultimo_numero = ultimo_agendamento.num_transporte[1:]
                 novo_numero = ultimo_numero + 1
             else:
                 novo_numero = 1
