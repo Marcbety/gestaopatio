@@ -211,7 +211,7 @@ def agendamento():
                 novo_numero = ultimo_numero + 1
             else:
                 novo_numero = 1
-            num_transporte = f'D{novo_numero:06d}'
+                num_transporte = f'D{novo_numero:06d}'
         else:
             num_transporte = str(row['Transporte']) # Ou outra lógica para outros tipos de operação
 
