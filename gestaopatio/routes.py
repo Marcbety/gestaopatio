@@ -226,7 +226,7 @@ def agendamento():
             motorista=form_agendamento.motorista.data,
             transportadora=form_agendamento.transportadora.data,
             tipo_operacao=form_agendamento.tipo_operacao.data,
-            num_transporte=num_transporte,
+            num_transporte=str(num_transporte),
             ultima_alteracao=datetime.utcnow(),
             usuario_alteracao=current_user.email
         )
