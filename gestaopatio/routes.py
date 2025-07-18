@@ -201,21 +201,32 @@ def carrega():
 @login_required
 def agendamento():
     form_agendamento = FormAgendamentos()
+
     if form_agendamento.validate_on_submit() and 'botao_submit_agendamento' in request.form:
+        # Inicializa variável
+        num_transporte = None
+
         # Verifica se o tipo de operação é "Recebimento"
         if form_agendamento.tipo_operacao.data == "Recebimento":
-            # Gera o num_transporte
-            ultimo_agendamento = Agendamentos.query.order_by(Agendamentos.desc()).first()
-            if ultimo_agendamento and ultimo_agendamento.num_transporte and ultimo_agendamento.num_transporte.startswith('D'):
-                ultimo_numero = str(ultimo_agendamento.num_transporte[1:])
+            # Busca o último número de transporte com prefixo 'D'
+            ultimo_agendamento = Agendamentos.query \
+                .filter(Agendamentos.num_transporte.like('D%')) \
+                .order_by(Agendamentos.num_transporte.desc()) \
+                .first()
+
+            if ultimo_agendamento and ultimo_agendamento.num_transporte:
+                ultimo_numero = int(ultimo_agendamento.num_transporte[1:])
                 novo_numero = ultimo_numero + 1
             else:
                 novo_numero = 1
-                num_transporte = f'D{novo_numero:06d}'
-        else:
-            num_transporte = str(row['Transporte']) # Ou outra lógica para outros tipos de operação
 
-        agendamentos = Agendamentos(
+            num_transporte = f'D{novo_numero:06d}'
+
+        else:
+            # Para outros tipos de operação, pode-se usar outra lógica ou deixar em branco
+            num_transporte = None  # ou gerar outro padrão se necessário
+
+        agendamento = Agendamentos(
             entrydate=form_agendamento.entrydate.data,
             entryhour=form_agendamento.entryhour.data,
             origem=form_agendamento.origem.data,
@@ -226,19 +237,22 @@ def agendamento():
             motorista=form_agendamento.motorista.data,
             transportadora=form_agendamento.transportadora.data,
             tipo_operacao=form_agendamento.tipo_operacao.data,
-            num_transporte=str(num_transporte),
+            num_transporte=num_transporte,
             ultima_alteracao=datetime.utcnow(),
             usuario_alteracao=current_user.email
         )
-        database.session.add(agendamentos)
+
+        database.session.add(agendamento)
         database.session.commit()
+
         flash(f'Agendamento gerado com sucesso para: {form_agendamento.transportadora.data}', 'alert-success')
         return redirect(url_for('agendamento'))
 
     elif form_agendamento.validate_on_submit() and 'botao_submit_arq_agendamento' in request.form:
         return render_template('Arq_Agendamento.html')
 
-    return render_template('Agendamento.html', form_agendamento=form_agendamento)    
+    return render_template('Agendamento.html', form_agendamento=form_agendamento)
+    
 
 @app.route('/arq_agenda', methods=['GET', 'POST'])
 def arq_agenda():
