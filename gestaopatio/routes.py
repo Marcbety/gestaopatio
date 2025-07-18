@@ -587,15 +587,13 @@ def entidade():
     
     
 
-@app.route('/check_in/', methods=['GET', 'POST'])
+
+app.route('/check_in/', methods=['GET', 'POST'])
 def check_in():
     agendamento_id = request.args.get('agendamento_id', type=int)
     agendamentos_c = Agendamentos.query.get_or_404(agendamento_id)
 
-    utc_now = datetime.utcnow()
-    utc_aware = pytz.utc.localize(utc_now)  # Corrige o timezone
-    local_tz = pytz.timezone('America/Sao_Paulo')
-    local_now = utc_aware.astimezone(local_tz)
+    local_now = datetime.now()  # Usa o horário local do sistema
 
     agendamentos_c.check_in = local_now
     agendamentos_c.fase_carga = "CHECK-IN"
