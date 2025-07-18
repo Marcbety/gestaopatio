@@ -26,17 +26,24 @@ def home():
         
        return render_template('Home.html', lista_cargas=lista_cargas)
     
+
 @app.route('/painel')
 def painel():
-        
-       lista_cargas = Agendamentos.query.filter(Agendamentos.status_carga == None, Agendamentos.saida_portaria == None ).order_by(Agendamentos.entrydate, Agendamentos.entryhour).all()
-       return render_template('Painel Cargas.html', lista_cargas=lista_cargas)
+    lista_cargas = Agendamentos.query.filter(
+        Agendamentos.status_carga == None,
+        Agendamentos.saida_portaria == None
+    ).order_by(Agendamentos.entrydate, Agendamentos.entryhour).all()
+
+    tz_sp = timezone('America/Sao_Paulo')  # Fuso horário de São Paulo
+    return render_template('Painel Cargas.html', lista_cargas=lista_cargas, tz_sp=tz_sp)
+
     
 @app.route('/painel_acompanha')
 def painel_acompanha():
         
-       lista_cargas = Agendamentos.query.filter(Agendamentos.status_carga == None).order_by(Agendamentos.entrydate, Agendamentos.entryhour).all()
-       return render_template('Acompanha Carga.html', lista_cargas=lista_cargas)
+    lista_cargas = Agendamentos.query.filter(Agendamentos.status_carga == None).order_by(Agendamentos.entrydate, Agendamentos.entryhour).all()
+    tz_sp = timezone('America/Sao_Paulo')  # Fuso horário de São Paulo
+    return render_template('Painel Cargas.html', lista_cargas=lista_cargas, tz_sp=tz_sp)
 
 @app.route('/painel_produtos')
 def painel_produtos():
