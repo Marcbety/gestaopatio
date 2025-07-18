@@ -205,7 +205,7 @@ def agendamento():
         # Verifica se o tipo de operação é "Recebimento"
         if form_agendamento.tipo_operacao.data == "Recebimento":
             # Gera o num_transporte
-            ultimo_agendamento = Agendamentos.query.order_by(Agendamentos.id.desc()).first()
+            ultimo_agendamento = Agendamentos.query.order_by(Agendamentos.desc()).first()
             if ultimo_agendamento and ultimo_agendamento.num_transporte and ultimo_agendamento.num_transporte.startswith('D'):
                 ultimo_numero = str(ultimo_agendamento.num_transporte[1:])
                 novo_numero = ultimo_numero + 1
