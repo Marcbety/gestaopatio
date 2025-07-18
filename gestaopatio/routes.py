@@ -584,16 +584,15 @@ def entidade():
            return redirect(url_for('entidade') )    
        return render_template('Cadastro_entidades.html', form_cliente=form_cliente, form_embarcador=form_embarcador)
     
-    
-    
-
-
-app.route('/check_in/', methods=['GET', 'POST'])
+@app.route('/check_in/', methods=['GET', 'POST'])
 def check_in():
     agendamento_id = request.args.get('agendamento_id', type=int)
     agendamentos_c = Agendamentos.query.get_or_404(agendamento_id)
 
-    local_now = datetime.now()  # Usa o horário local do sistema
+    utc_now = datetime.utcnow()
+    utc_aware = pytz.utc.localize(utc_now)  # Corrige o timezone
+    local_tz = pytz.timezone('America/Sao_Paulo')
+    local_now = utc_aware.astimezone(local_tz)
 
     agendamentos_c.check_in = local_now
     agendamentos_c.fase_carga = "CHECK-IN"
@@ -602,7 +601,6 @@ def check_in():
     flash('Check-In realizado com sucesso!', 'alert-success')
     return redirect(url_for('painel'))
 
-    
 @app.route('/entrada_patio/', methods=['GET', 'POST'])
 def entrada_patio():
         agendamento_id = request.args.get('agendamento_id', type=int)
