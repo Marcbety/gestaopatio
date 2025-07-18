@@ -40,7 +40,7 @@ def painel():
 def painel_acompanha():
         
     lista_cargas = Agendamentos.query.filter(Agendamentos.status_carga == None).order_by(Agendamentos.entrydate, Agendamentos.entryhour).all()
-    tz_sp = timezone('America/Sao_Paulo')  # Fuso horário de São Paulo
+    tz_sp = ZoneInfo("America/Sao_Paulo")  # Fuso horário de São Paulo
     return render_template('Painel Cargas.html', lista_cargas=lista_cargas, tz_sp=tz_sp)
 
 @app.route('/painel_produtos')
