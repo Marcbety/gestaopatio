@@ -18,7 +18,7 @@ from flask_wtf.csrf import generate_csrf
 from sqlalchemy import func
 from gestaopatio.models import Agendamentos, Usuario, Motorista, Frota_Andina, Cliente_Andina, Frota_Terceiros, Arquivos, Vendas_ME, Control_Patio, ControlPicking
 from gestaopatio import app, database, bcrypt
-
+from zoneinfo import ZoneInfo
 
 @app.route('/')
 def home():
@@ -26,7 +26,6 @@ def home():
         
        return render_template('Home.html', lista_cargas=lista_cargas)
     
-
 @app.route('/painel')
 def painel():
     lista_cargas = Agendamentos.query.filter(
@@ -34,10 +33,9 @@ def painel():
         Agendamentos.saida_portaria == None
     ).order_by(Agendamentos.entrydate, Agendamentos.entryhour).all()
 
-    tz_sp = timezone('America/Sao_Paulo')  # Fuso horário de São Paulo
+    tz_sp = ZoneInfo("America/Sao_Paulo")  # Fuso horário de São Paulo
     return render_template('Painel Cargas.html', lista_cargas=lista_cargas, tz_sp=tz_sp)
 
-    
 @app.route('/painel_acompanha')
 def painel_acompanha():
         
