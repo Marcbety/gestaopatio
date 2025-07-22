@@ -1,43 +1,86 @@
+{% extends 'Base.html' %}
+
 {% block body %}
+<div class="container-fluid text-center" style="padding: 0;">
+    <h1 style="color: black">STAGE-IN</h1>
+    <hr>
+    <div class="container-fluid" id="content">
+        {% set total_por_tela = 18 %}
+        {% set total_telas = 2 %}
+        {% set stage_index = namespace(valor=0) %}
 
-        <div class="row">
-            {% for i in range(6) %}
-                {% for j in range(6) %}
-                    {% set index = j * 6 + i %}
-                    {% set stage_num = "%02d"|format(index + 1) %}
-                    {% set card_class = 'text-bg-light' %}
-                    {% set text_color = '#000000' %}
+        {% for tela in range(total_telas) %}
+        <div class="row tela" id="tela{{ tela }}" style="{% if tela != 0 %}display: none;{% endif %}; flex-wrap: wrap; justify-content: center;">
+            {% set start = tela * total_por_tela %}
+            {% set end = (tela + 1) * total_por_tela %}
+            {% set sub_lista = lista_patio[start:end] %}
+            {% for i in range(total_por_tela) %}
+                {% if i < sub_lista|length %}
+                    {% set item = sub_lista[i] %}
+                {% else %}
+                    {% set item = namespace(num_doca='', num_frota='', sub_frota='', num_posicao='', status_frota='') %}
+                {% endif %}
 
-                    <div class="col-md-2 col-sm-4 col-xs-6 mb-4">
-                        <div class="card {{ card_class }}" style="height: 12rem; border: 1px solid black;">
-                            <div class="card-header" style="font-size: 2.5rem; color: {{ text_color }};">
-                                Stage: {{ stage_num }}
-                            </div>
-                            {% for item in lista_patio %}
-                                {% if item.num_doca == stage_num %}
-                                    <div class="card-body p-0">
-                                        <h5 class="card-title" style="font-size: 5rem; color: {{ text_color }};">
-                                            {{ item.num_frota }} 
-                                        </h5>
-                                        <p class="card-text" style="font-size: 2.5rem; color: {{ text_color }}; position: absolute; bottom: 0; right: 0;">
-                                            {{ item.num_posicao }}
-                                        </p>
-                                    </div>
-                                {% endif %}
-                            {% endfor %}
-                        </div>
-                    </div>
-                {% endfor %}
-            {% endfor %}
-        </div>
-    </div>
+                {% set card_class = 'text-bg-body-light' %}
+                {% set text_color = '#000000' %}
+
+                {% if item.num_faixa %}
+                    {% set card_class = 'text-bg-success' %}
+                {% elif item.num_posicao %}
+                    {% set card_class = 'text-bg-dark' %}
+                    {% set text_color = '#ffffff' %}
+                {% endif %}
+
+                {% if not item.num_doca %}
+                    {% set stage_label = stage_disponiveis[stage_index.valor] %}
+                    {% set stage_index.valor = stage_index.valor + 1 %}
+                {% endif %}
+
+                <div class="col-md-2 col-sm-4 col-xs-6 mb-5">
+                    <div class="card {{ card_class }}" style="height: 22rem; border: 2px solid black; position: relative;">
+                        <div class="card-header" style="font-size: 4rem; color: {{ text_color }};">
+                            {% if item.num_doca %}
+                                {{ item.num_doca }}
+                            {% else %}
+                                {{ stage_label }}
+                            {% endif %}
+                        </div>
+                        <div class="card-body p-0">
+                            <h5 class="card-title" style="font-size: 9.3rem; color: {{ text_color }};">
+                                {{ item.num_frota }}
+                            </h5>
+                            <p class="card-text" style="font-size: 2.5rem; color: {{ text_color }}; position: absolute; top: 0; left: 0;">
+                                {{ item.sub_frota }}
+                            </p>
+                            <p class="card-text" style="font-size: 2.5rem; color: {{ text_color }}; position: absolute; bottom: 0; right: 0;">
+                                {{ item.num_posicao }}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        {% endfor %}
+    </div>
+</div>
 
 <script>
-    window.onload = function() {
-        setTimeout(function() {
-            location.reload();
-        }, 1000); // Recarrega a página após 1 segundo
-    };
-</script>
+    const intervaloTroca = 10000;
+    const totalTelas = {{ total_telas }};
+    let telaAtual = 0;
 
+    setInterval(() => {
+        document.getElementById('tela' + telaAtual).style.display = 'none';
+        telaAtual = (telaAtual + 1) % totalTelas;
+        document.getElementById('tela' + telaAtual).style.display = 'flex';
+    }, intervaloTroca);
+
+    setInterval(() => {
+        fetch('/update_content')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('content').innerHTML = data;
+            });
+    }, 120000);
+</script>
 {% endblock %}
