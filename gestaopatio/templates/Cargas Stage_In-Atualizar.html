@@ -82,6 +82,11 @@
             .then(response => response.text())
             .then(data => {
                 document.getElementById('content').innerHTML = data;
+                
+                // Rola suavemente até o final da página
+                window.scrollTo({
+                    top: document.body.scrollHeight,
+                    behavior: 'smooth'
             });
     }, 12000);
 </script>
