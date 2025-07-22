@@ -75,12 +75,12 @@
         document.getElementById('tela' + telaAtual).style.display = 'flex';
     }, intervaloTroca);
 
-     // Atualiza o conteúdo a cada 2 minutos (120.000 milissegundos)
-    setInterval(updateContent, 12000);
-
-    //Recarrega a página após 1 segundo
-        setTimeout(function() {
-            location.reload();
-        }, 1000);
+      setInterval(() => {
+        fetch('/update_content')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('content').innerHTML = data;
+            });
+    }, 120000);
 </script>
 {% endblock %}
