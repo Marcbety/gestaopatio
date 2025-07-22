@@ -99,7 +99,8 @@ def stage_in():
         Control_Patio.num_doca.isnot(None),
         Control_Patio.num_frota.isnot(None),
         Control_Patio.status_frota != 'Finalizada',
-        Control_Patio.status_frota != 'Patio'
+        Control_Patio.status_frota != 'Patio',
+        Control_Patio.status_faixa != 'Liberada'   
     ).all()
 
     def num_frota_int(item):
