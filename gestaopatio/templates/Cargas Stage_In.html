@@ -38,7 +38,7 @@
 
                 <div class="col-md-2 col-sm-4 col-xs-6 mb-5">
                     <div class="card {{ card_class }}" style="height: 15rem; border: 2px solid black; position: relative;">
-                        <div class="card-header" style="font-size: 4.5rem; color:{% if item.num_doca %}{{ text_color }}{% else %}red{% endif %};">
+                        <div class="card-header" style="font-size: 3rem; color:{% if item.num_doca %}{{ text_color }}{% else %}red{% endif %};">
                             {% if item.num_doca %}
                                 {{ item.num_doca }}
                             {% else %}
@@ -46,13 +46,13 @@
                             {% endif %}
                         </div>
                         <div class="card-body p-0">
-                            <h5 class="card-title" style="font-size: 9.3rem; color: {{ text_color }};">
+                            <h5 class="card-title" style="font-size: 6rem; color: {{ text_color }};">
                                 {{ item.num_frota }}
                             </h5>
-                            <p class="card-text" style="font-size: 2.5rem; color: {{ text_color }}; position: absolute; top: 0; left: 0;">
+                            <p class="card-text" style="font-size: 2rem; color: {{ text_color }}; position: absolute; top: 0; left: 0;">
                                 {{ item.sub_frota }}
                             </p>
-                            <p class="card-text" style="font-size: 2.5rem; color: {{ text_color }}; position: absolute; bottom: 0; right: 0;">
+                            <p class="card-text" style="font-size: 2rem; color: {{ text_color }}; position: absolute; bottom: 0; right: 0;">
                                 {{ item.num_posicao }}
                             </p>
                         </div>
