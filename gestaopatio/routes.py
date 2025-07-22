@@ -129,9 +129,37 @@ def stage_in():
 
 @app.route('/update_content')
 def update_content():
-    lista_patio = Control_Patio.query.filter(Control_Patio.num_doca != None, Control_Patio.hora_conclusao == None).all()
-    return render_template('Cargas Stage_In-Atualizar.html', lista_patio=lista_patio)
+     lista_patio = Control_Patio.query.filter(
+        Control_Patio.num_doca.isnot(None),
+        Control_Patio.num_frota.isnot(None),
+        Control_Patio.status_frota != 'Finalizada',
+        Control_Patio.status_frota != 'Patio',
+        Control_Patio.num_frota != '704'   
+    ).all()
 
+    def num_frota_int(item):
+        try:
+            return int(item.num_frota)
+        except (TypeError, ValueError):
+            return float('inf')
+
+    lista_patio_ordenada = sorted(lista_patio, key=num_frota_int)
+
+    # Docas ocupadas com status Stage ou Carregando
+    docas_ocupadas = [
+        int(item.num_doca)
+        for item in lista_patio_ordenada
+        if item.status_frota in ['Stage', 'Carregando'] and item.num_doca is not None
+    ]
+
+    # Gerar lista de Stages disponíveis (por exemplo, de 1 a 999)
+    stage_disponiveis = [i for i in range(1, 1000) if i not in docas_ocupadas]
+
+    return render_template(
+        'Cargas Stage_In.html',
+        lista_patio=lista_patio_ordenada,
+        stage_disponiveis=stage_disponiveis
+    )
 @app.route('/painel_patio')
 def painel_patio():      
      lista_patio = Control_Patio.query.filter(Control_Patio.hora_conclusao == None).all()
