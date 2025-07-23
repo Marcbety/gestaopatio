@@ -115,7 +115,7 @@ def stage_in():
     docas_ocupadas = [
         int(item.num_doca)
         for item in lista_patio_ordenada
-        if item.status_frota in ['Stage', 'Carregando'] and item.num_doca is not None
+        if item.status_frota in ['Stage', 'Faixa', 'Carregando'] and item.num_doca is not None
     ]
 
     # Gerar lista de Stages disponíveis (por exemplo, de 1 a 999)
@@ -151,7 +151,7 @@ def update_content():
     docas_ocupadas = [
         int(item.num_doca)
         for item in lista_patio_ordenada
-        if item.status_frota in ['Stage', 'Carregando'] and item.num_doca is not None
+        if item.status_frota in ['Stage', 'Faixa', 'Carregando'] and item.num_doca is not None
     ]
 
     # Gera lista de Stages disponíveis (por exemplo, de 1 a 999)
