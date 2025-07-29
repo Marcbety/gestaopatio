@@ -78,7 +78,7 @@ def atualizar_gnre():
 
 @app.route('/painel_rota')
 def painel_rota():
-    lista_patio = Control_Patio.query.filter(Control_Patio.hora_conclusao == None).order_by(Control_Patio.num_doca).all()
+    lista_patio = Control_Patio.query.filter(Control_Patio.num_frota == '710').order_by(Control_Patio.num_doca).all()
     
     for controle in lista_patio:
         num_transporte = controle.num_transporte
@@ -165,7 +165,7 @@ def update_content():
 
 @app.route('/painel_patio')
 def painel_patio():      
-     lista_patio = Control_Patio.query.filter(Control_Patio.num_frota == '710').all()
+     lista_patio = Control_Patio.query.filter(Control_Patio.hora_conclusao == None).all()
      return render_template('Controle Patio.html', lista_patio=lista_patio)
 
 @app.route('/gestao_patio')
