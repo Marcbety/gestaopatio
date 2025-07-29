@@ -170,7 +170,7 @@ def painel_patio():
 
 @app.route('/gestao_patio')
 def gestao_patio():      
-     lista_patio = Control_Patio.query.filter(Control_Patio.hora_conclusao == None).all()
+     lista_patio = Control_Patio.query.filter(Control_Patio.hora_conclusao != None).all()
      return render_template('Gestão Faixa.html', lista_patio=lista_patio)
 
 
