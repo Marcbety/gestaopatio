@@ -78,7 +78,7 @@ def atualizar_gnre():
 
 @app.route('/painel_rota')
 def painel_rota():
-    lista_patio = Control_Patio.query.filter(Control_Patio.num_frota == '710').order_by(Control_Patio.num_doca).all()
+    lista_patio = Control_Patio.query.filter(Control_Patio.hora_conclusao == None).order_by(Control_Patio.num_doca).all()
     #Control_Patio.hora_conclusao == None
     for controle in lista_patio:
         num_transporte = controle.num_transporte
