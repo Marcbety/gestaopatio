@@ -67,7 +67,7 @@
 </div>
 
 <script>
-    const intervaloTroca = 10000;
+    const intervaloTroca = 12000;
     const totalTelas = {{ total_telas }};
     let telaAtual = 0;
 
@@ -83,6 +83,6 @@
             .then(data => {
                 document.getElementById('content').innerHTML = data;
             });
-    }, 10000);
+    }, 12000);
 </script>
 {% endblock %}
