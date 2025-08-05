@@ -1,0 +1,26 @@
+{
+  "cluster": "<cluster-name>",
+  "serviceName": "gestaopatio-service",
+  "taskDefinition": "gestaopatio-task",
+  "desiredCount": 1,
+  "launchType": "EC2",
+  "networkConfiguration": {
+    "awsvpcConfiguration": {
+      "subnets": [
+        "<subnet-id-1>",
+        "<subnet-id-2>"
+      ],
+      "securityGroups": [
+        "<security-group-id>"
+      ],
+      "assignPublicIp": "ENABLED"
+    }
+  },
+  "loadBalancers": [
+    {
+      "targetGroupArn": "<target-group-arn>",
+      "containerName": "gestaopatio-container",
+      "containerPort": 5000
+    }
+  ]
+}

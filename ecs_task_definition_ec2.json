@@ -1,0 +1,43 @@
+{
+  "family": "gestaopatio-task",
+  "networkMode": "bridge",
+  "containerDefinitions": [
+    {
+      "name": "gestaopatio-container",
+      "image": "<aws_account_id>.dkr.ecr.<region>.amazonaws.com/gestaopatio:latest",
+      "memory": 512,
+      "cpu": 256,
+      "essential": true,
+      "portMappings": [
+        {
+          "containerPort": 5000,
+          "hostPort": 5000,
+          "protocol": "tcp"
+        }
+      ],
+      "environment": [
+        {
+          "name": "SECRET_KEY",
+          "value": "your-secret-key"
+        },
+        {
+          "name": "DATABASE_URL",
+          "value": "postgresql://user:<password>@<rds-endpoint>:5432/gestaopatio"
+        }
+      ],
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "/ecs/gestaopatio",
+          "awslogs-region": "<region>",
+          "awslogs-stream-prefix": "ecs"
+        }
+      }
+    }
+  ],
+  "requiresCompatibilities": [
+    "EC2"
+  ],
+  "cpu": "256",
+  "memory": "512"
+}
