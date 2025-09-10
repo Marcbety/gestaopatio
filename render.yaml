@@ -14,5 +14,5 @@ services:
 
 databases:
   - name: gestaopatio-db
-    databaseName: gestaopatio
-    user: gestaopatio_user
+    databaseName: gestaopatio_db_axue
+    user: gestaopatio_db_axue_user
