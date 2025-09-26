@@ -3,16 +3,25 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
+from dotenv import load_dotenv
 import os
 
 # Inicializa a aplicação Flask
 app = Flask(__name__)
 
 # Configurações principais
+
+load_dotenv()
+
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'chave-padrao-secreta')
 
-# Exige que DATABASE_URL esteja definida (sem fallback para SQLite)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://flaskuser:Marcravens%8352@localhost:5432/gestaopatio'
+db_user = os.getenv('DB_USER')
+db_password = os.getenv('DB_PASSWORD')
+db_host = os.getenv('DB_HOST')
+db_port = os.getenv('DB_PORT')
+db_name = os.getenv('DB_NAME')
+
+app.config['SQLALCHEMY_DATABASE_URI'] = f'postgresql://{db_user}:{db_password}@{db_host}:{db_port}/{db_name}'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['WTF_CSRF_ENABLED'] = True
 
