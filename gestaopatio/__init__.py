@@ -13,7 +13,7 @@ app = Flask(__name__)
 
 load_dotenv()
 
-app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'chave-padrao-secreta')
+app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
 
 db_user = os.getenv('DB_USER')
 db_password = os.getenv('DB_PASSWORD')
