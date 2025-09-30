@@ -10,7 +10,7 @@ env:
   ECR_REPOSITORY: gestaopatio
   ECS_CLUSTER: gestaopatio-cluster
   ECS_SERVICE: gestaopatio-service
-  ECS_TASK_DEFINITION: ecs_task_definition_ec2.json
+  TASK_DEFINITION_FILE: ecs_task_definition_ec2.json
 
 jobs:
   deploy:
@@ -34,13 +34,29 @@ jobs:
 
       - name: Build, tag, and push image to ECR
         run: |
-          docker build -t $ECR_REPOSITORY .
-          docker tag $ECR_REPOSITORY:latest ${{ steps.login-ecr.outputs.registry }}/$ECR_REPOSITORY:latest
-          docker push ${{ steps.login-ecr.outputs.registry }}/$ECR_REPOSITORY:latest
+          IMAGE_TAG=${{ github.sha }}
+          docker build -t $ECR_REPOSITORY:$IMAGE_TAG .
+          docker tag $ECR_REPOSITORY:$IMAGE_TAG ${{ steps.login-ecr.outputs.registry }}/$ECR_REPOSITORY:$IMAGE_TAG
+          docker push ${{ steps.login-ecr.outputs.registry }}/$ECR_REPOSITORY:$IMAGE_TAG
+          echo "IMAGE_URI=${{ steps.login-ecr.outputs.registry }}/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_ENV
+
+      - name: Render updated task definition
+        run: |
+          sed "s|<IMAGE_URI>|${{ env.IMAGE_URI }}|g" $TASK_DEFINITION_FILE > rendered-task-def.json
+
+      - name: Register new task definition
+        id: register-task
+        run: |
+          TASK_DEF_ARN=$(aws ecs register-task-definition \
+            --cli-input-json file://rendered-task-def.json \
+            --query 'taskDefinition.taskDefinitionArn' \
+            --output text)
+          echo "TASK_DEF_ARN=$TASK_DEF_ARN" >> $GITHUB_ENV
 
       - name: Update ECS service
         run: |
           aws ecs update-service \
             --cluster $ECS_CLUSTER \
             --service $ECS_SERVICE \
+            --task-definition ${{ env.TASK_DEF_ARN }} \
             --force-new-deployment
