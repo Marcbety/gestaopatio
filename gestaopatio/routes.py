@@ -1,7 +1,7 @@
 import pandas as pd
 from flask import Flask
 from flask import render_template, redirect, url_for, flash, request, jsonify
-from gestaopatio import app
+from gestaopatio import app, cache
 from gestaopatio.foms import FormCriarConta, FormLogin, FormAgendamentos, FormReagenda, FormFrota, FormCliente, FormEmbarcador, FormFrotaTerceiro, FormMotorista, FormControlPatio, FormControlFaixa 
 from datetime import date, datetime, time, timezone, timedelta
 from flask_wtf import FlaskForm
@@ -20,12 +20,14 @@ from gestaopatio.models import Agendamentos, Usuario, Motorista, Frota_Andina, C
 from gestaopatio import app, database, bcrypt
 from zoneinfo import ZoneInfo
 
+@cache.cached(timeout=120)
 @app.route('/')
 def home():
        lista_cargas = Agendamentos.query.filter(Agendamentos.status_carga == None).order_by(Agendamentos.entrydate, Agendamentos.entryhour).all()
         
        return render_template('Home.html', lista_cargas=lista_cargas)
     
+@cache.cached(timeout=120)
 @app.route('/painel')
 def painel():
     lista_cargas = Agendamentos.query.filter(
@@ -36,6 +38,7 @@ def painel():
     tz_sp = ZoneInfo("America/Sao_Paulo")  # Fuso horário de São Paulo
     return render_template('Painel Cargas.html', lista_cargas=lista_cargas, tz_sp=tz_sp)
 
+@cache.cached(timeout=120)
 @app.route('/painel_acompanha')
 def painel_acompanha():
         
@@ -43,6 +46,7 @@ def painel_acompanha():
     tz_sp = ZoneInfo("America/Sao_Paulo")  # Fuso horário de São Paulo
     return render_template('Painel Carga.html', lista_cargas=lista_cargas, tz_sp=tz_sp)
 
+@cache.cached(timeout=180)
 @app.route('/painel_produtos')
 def painel_produtos():
     vendas = Vendas_ME.query.all()
@@ -75,7 +79,7 @@ def atualizar_gnre():
     except Exception as e:
         return jsonify({'success': False, 'error': str(e)}), 500
     
-
+@cache.cached(timeout=120)
 @app.route('/painel_rota')
 def painel_rota():
     lista_patio = Control_Patio.query.filter(Control_Patio.hora_conclusao == None).order_by(Control_Patio.num_doca).all()
